@@ -132,7 +132,7 @@ def get_api_key():
 #      用 session_state 记住「上一个角色」，radio 一变就清空消息列表。
 
 st.set_page_config(page_title="SIVGA 耳机助手", page_icon="🎧")#在浏览器最顶部的标签页那里
-st.title("🎧 SIVGA 耳机智能助手")
+st.title("🎧 SIVGA 耳机智能超级助手")
 st.caption("售后与选购 · 由 DeepSeek 大模型驱动 · 本作品为学习项目")
 
 PERSONAS = {
