@@ -10,6 +10,23 @@
 
 #UI(User Interface,用户界面)，GUI(Graphical User Interface,图形用户界面)
 
+# 密钥与隐私 —— 绝对不进仓库
+# .env
+# .streamlit/secrets.toml
+
+# # Python 运行产物
+# __pycache__/
+# *.pyc
+# 程序运行是编译后运行的。当编译成二进制文件时，下次编译就直接从pycache中读取文件运行了，但是受操作系统的限制，每个人不一样，因此不能落入到仓库里，是为了仓库干净
+# 直接运行 python xxx.py → 主脚本只在内存里编译执行，不写任何缓存文件——这是你 U1 到 U43 的全部跑法，所以你从来没见过它；
+# 被 import（导入当模块用）​ 或 py_compile 工具编译 → 才会把编译结果写成 .pyc 落进 __pycache__。py_compile是python内置模块，可py -m py_compile 
+
+# # 系统杂项
+# .DS_Store
+# Thumbs.db 
+#Thumbs.db：Windows 资源管理器的缩略图缓存，你其实见过它——拷贝带图片的文件夹时常跟着出现；
+#.DS_Store：macOS 访达（Finder）的同类物。
+
 # ---- 第一节：部署是什么 ----
 #
 # 到目前为止，你的 Streamlit 程序只活在你的电脑上：
@@ -80,15 +97,16 @@ def get_api_key():
 # 不认识你的硬盘。所以「部署」实际上是：
 #   你的硬盘 → git push（推送）→ GitHub 仓库 → Streamlit 云拉取 → 云端跑
 #
-# 三步把本单元推上 GitHub（U12 你练过，这里只列命令）：
+# 三步把本单元推上 GitHub（U12 你练过，这里只列命令）：#U(Untracked),A(Added)
 #   git init                      # 仓库初始化（U12 回收）
-#   git add . && git commit -m "SIVGA 客服 v1"
-#   git remote add origin https://github.com/<你的用户名>/<仓库名>.git
+#   git add . && git commit -m "SIVGA 客服 v1"#message
+#   git remote add origin https://github.com/<你的用户名>/<仓库名>.git#打通连接
 #   git push -u origin main
 #   origin就是给网站起的名字，-u(--set-upstream设置上游分支)，程序的main分支对应github仓库origin的main分支，下次就不用再写一遍了直接git push
 # 推完自查一条（本题考自己）：
 #   git status                    # 应该**看不到 .env**——看到就是 .gitignore 没生效
-
+# 本机默认是master分支，GitHub默认主分支是main，因此要改主分支名
+# git remote add新建连接，set-url是换一个新连接
 # ---- 第五节：Streamlit Cloud 部署五步 ----
 #
 # ① 开 share.streamlit.io → 「Sign up with GitHub」（用 GitHub 账号直接注册）
