@@ -20,7 +20,6 @@
 # 他的项目只用了：os / streamlit / openai / python-dotenv / requests。
 # 问：
 # ① 逐行判定：哪行「会炸」、哪行「多余」、哪行「无害但扣印象分」？
-#    .env会炸，如果项目用到了requests则有用，os无害但是os是python本身内置的包
 # ② 「会炸」的行在云端部署日志里会以什么形式暴露（提示：pip install
 #    找不到包名时打印什么）？
 # ③ 重写一份合格的 requirements.txt（写在下面）。
@@ -62,15 +61,45 @@
 # ② push 前跑 `git status`——**截图或抄下输出**，确认 .env 不在
 #    待推列表里（.gitignore 生效的证据）；
 # ③ 部署 → 在云后台 Secrets 贴 DEEPSEEK_API_KEY → 拿到线上链接；
-# .toml的格式要变量=字符串
+#    .toml的格式要变量=字符串
+
 # ④ 观察：部署日志（Manage app → 查看日志）里 pip 装了哪些包？
 #    和你练习 1 的答案对上了吗？多装/少装了什么？
-#    分为直接依赖和传递依赖，直接依赖就是像openai,dotenv这种包，传递依赖是包里还需要用到其他包才能运行，比如openai需要httpx包才能发送请求
+#    1.分为直接依赖和传递依赖，直接依赖就是像openai,dotenv这种包，传递依赖是包里还需要用到其他包才能运行，比如openai需要httpx包才能发送请求
 #    因此除了requirements里的直接依赖，pip还要下载一堆传递依赖，实质是python也会下这些传递依赖。
+#    2.还要一些基础设施和底层环境，比如os,python,pip,setuptools等的基础工具。
+#    就是跟本地的电脑一样，这些底层环境和依赖必不可少。
+
 # ⑤ 改一处代码（比如改 title 文案）→ push → 等自动重新部署 →
 #    刷新线上链接验证改动生效。记录从 push 到生效用了几分钟。
+
 # ⑥ （可选加分）给仓库根目录放一张界面截图，README 里引用。
+#    ![alt text](demo.png)
+#    ！是告诉markdown这是图片，[]里如果没插入图片就显示这个字
 #   ①-⑤ 你的实操记录（链接、日志摘抄、时间）：
+#
+# ---- 练习 3 实操记录（助手按 git 仓库实况补，2026-11-24）----
+# ① 建仓库→推 GitHub：✓ 提交链完整——
+#   e07fe1d Initial(GitHub自动README 04:20) → cc561e8 v1(03:47本地，
+#   pull --rebase 并入) → 28d4f7c v2(05:12) → c2630bd 改标题(06:34)
+#   → 2ff5c13 截图(06:55) → 8c7b19c README v2(07:03)；
+#   remote = github.com/ljt147258369/sivga-
+# ② .gitignore 生效铁证：✓ git ls-files 输出**无 .env**（0 个匹配），
+#   工作区 status 干净——push 前拦截成功（情况一，零泄漏）。
+# ③ 部署 + Secrets：✓ 线上链接
+#   https://yelhh5a6jhypg2qmqtg5s9.streamlit.app/
+#   ⚠️ 验收实测（11-24 08:30）：未登录访问被 303 重定向到
+#   share.streamlit.io 的登录授权页——**应用当前是私有可见性**。
+#   简历链接必须公开：Manage app → Settings → Sharing → Make app
+#   public（改完无需重新部署，链接立即对陌生人开放）。
+# ④ pip 日志对账：✓ 他自查过——清单 3 件全装上；多出来的几十个是
+#   传递依赖（streamlit→pandas/numpy/tornado…，openai→httpx/
+#   pydantic…），属于预期内多装，不是异常。
+# ⑤ 改 title → 自动重新部署：改动已提交（c2630bd 06:34「修改了
+#   网站标题」，1 文件 1 行）✓；push→生效的分钟数当时没记录。
+#   重测方法：随便改一行注释 → push → 云后台 Manage app 刷新看
+#   状态从 Running 变 Building 再回 Running，掐表记一次。
+# ⑥ （可选加分）demo.png 已提交进仓库且 README 引用 ✓
 # https://yelhh5a6jhypg2qmqtg5s9.streamlit.app/。
 # ------------------------------------------------------------
 # 练习 4 · README + 30 秒 demo（交付物，简历弹药）
